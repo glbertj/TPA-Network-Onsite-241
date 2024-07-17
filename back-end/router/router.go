@@ -100,17 +100,5 @@ func NewRouter(playlist *controller.PlaylistController, user *controller.UserCon
 	router.POST("/user/reset-password", user.ResetPassword)
 	router.GET("/user/valid-verify", user.GetUserByVerifyLink)
 
-	router.GET("/send", func(c *gin.Context) {
-		id := c.Query("id")
-		h.NotificationChannel[id] <- model.Notification{
-			NotifyId: utils.GenerateUUID(),
-			UserId:   "d3cc72e7-f998-4f2f-b45a-1ab86b8bd233",
-			Title:    "Tes",
-			Body:     "Pong",
-			Status:   "OK",
-			ReadAt:   time.Time{},
-		}
-	})
-
 	return router
 }

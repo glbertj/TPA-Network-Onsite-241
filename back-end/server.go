@@ -18,15 +18,7 @@ func main() {
 	db := database.ConnectDB(cnf)
 	redis := database.NewRedis(cnf)
 	google := database.NewGoogle(cnf)
-
-	//broadcast := sse.NewBroadCast()
-	//go broadcast.Listen()
-
 	validate := validator.New()
-
-	//careerRepository := repository.NewCareerRepositoryImpl(db)
-	//careerService := services.NewCareerServiceImpl(careerRepository, validate)
-	//careerController := controller.NewCareerController(careerService)
 
 	notificationSettingRepository := repository.NewNotificationSettingRepositoryImpl(db, redis)
 	notificationSettingService := services.NewNotificationSettingServiceImpl(notificationSettingRepository, validate)

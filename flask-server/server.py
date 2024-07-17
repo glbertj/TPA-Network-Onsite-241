@@ -1,8 +1,6 @@
 from flask import Flask,request, jsonify
 from flask_cors import CORS, cross_origin
 from keras.models import load_model
-import pickle
-from PIL import Image
 import numpy as np
 from collections import Counter
 import librosa, librosa.display

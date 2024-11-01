@@ -3,11 +3,8 @@ package router
 import (
 	"back-end/controller"
 	"back-end/middleware"
-	"back-end/model"
 	"back-end/sse"
-	"back-end/utils"
 	"back-end/config"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

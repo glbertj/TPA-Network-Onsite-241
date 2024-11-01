@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  back-end:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  flask:
+    build:
+      context: ./flask-server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+
+networks:
+  default:
+    driver: bridge

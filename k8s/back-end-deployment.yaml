@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end-deployment
+  labels:
+    app: back-end
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: back-end
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+      - name: back-end
+        image: tpa-network-onsite-241_back-end:latest
+        ports:
+        - containerPort: 8080

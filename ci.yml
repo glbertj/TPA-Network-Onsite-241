@@ -9,27 +9,79 @@ on:
       - main
 
 jobs:
-  build:
+  # Backend Job
+  backend:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Python (for Flask backend)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies for Flask server
+        run: |
+          cd back-end
+          pip install -r requirements.txt
+
+      - name: Run backend tests
+        run: |
+          cd back-end
+          pytest  # or whatever test framework you are using for the backend
+
+      - name: Build Docker image for backend
+        run: |
+          cd back-end
+          docker build -t backend-service .
+
+      - name: Push Docker image (if necessary)
+        run: |
+          docker push backend-service
+
+  # Frontend Job
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js (for frontend)
         uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies for frontend
+        run: |
+          cd front-end
+          npm install
 
-      - name: Run tests
-        run: npm test
+      - name: Run frontend tests
+        run: |
+          cd front-end
+          npm test
 
-      - name: Build Docker image
-        run: docker build -t my-app .
+      - name: Build Docker image for frontend
+        run: |
+          cd front-end
+          docker build -t frontend-service .
 
-      - name: Deploy to server
-        run: ./deploy.sh
+      - name: Push Docker image (if necessary)
+        run: |
+          docker push frontend-service
 
+  # Deployment (if needed)
+  deploy:
+    needs: [frontend, backend]  # Only run after frontend and backend jobs are complete
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Server (example script)
+        run: |
+          ./deploy.sh  # Assuming you have a script to deploy the application
